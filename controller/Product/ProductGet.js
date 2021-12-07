@@ -5,7 +5,22 @@ const Product = mongoose.model("Product", productSchema);
 
 const ProductGet = async (req, res) => {
   try {
-    const allProduct = await Product.find({});
+
+    const pipeline = [
+      {
+        $unwind: "$images",
+      },
+      {
+        $group: {
+          _id: "$_id",
+          images: { $push: "$images" },
+        },
+      },
+    ];
+
+    const allProduct = await Product.aggregate(pipeline);
+    console.log("Products: ", allProduct);
+
     if (allProduct) {
       res
         .status(200)
@@ -14,6 +29,7 @@ const ProductGet = async (req, res) => {
       res.status(200).send(SendResponse(false, "Product Get Not Success"));
     }
   } catch (error) {
+    console.log(error);
     res
       .status(200)
       .send(SendResponse(false, "Product Get Not Success, Try again"));

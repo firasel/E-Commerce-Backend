@@ -8,6 +8,8 @@ const ProductAdd = async (req, res) => {
     const product = new Product({
       name: req.body.name,
       image: req.body.image,
+      images: req.body.images,
+      category: req.body.category,
       countInStock: req.body.countInStock,
     });
 
