@@ -6,12 +6,15 @@ require("dotenv").config();
 app.use(express.json());
 
 const productHandler = require("./routeHandler/productHandler");
+const fileHandler = require("./routeHandler/fileHandler");
 
 const port = process.env.PORT || 3000;
 const api = process.env.API_URL;
 
 // Product Route
 app.use(`${api}/product`, productHandler);
+// File Route
+app.use(`${api}/file`, fileHandler);
 
 // Error handle
 app.use((err, req, res, next) => {
